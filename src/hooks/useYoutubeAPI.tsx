@@ -1,23 +1,26 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export const useFetch = (initialUrl: string, options?: AxiosRequestConfig) => {
-  const [data, setData] = useState([]);
+export const useYoutubeAPI = (idVideo: string) => {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!initialUrl) return;
+    if (!idVideo) return;
 
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(initialUrl);
+        const response = await axios.get(
+          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${idVideo}`
+        );
         if (response.status === 400 || response.status === 404) {
           throw new Error(`HTTP Error status: ${response.status}`);
         }
 
-        const json = await response.data.data;
+        const json = await response.data;
+
         setData(json);
         setLoading(false);
         setError(null);
@@ -27,7 +30,7 @@ export const useFetch = (initialUrl: string, options?: AxiosRequestConfig) => {
     };
 
     fetchData();
-  }, [initialUrl, options]);
+  }, [idVideo]);
 
   return { data, loading, error };
 };
