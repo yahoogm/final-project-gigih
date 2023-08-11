@@ -18,14 +18,14 @@ const VideList = (): JSX.Element => {
   return (
     <Stack padding={'4'}>
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        {data.map((video: responseVideo, idx: number) => {
+        {data.map((video: responseVideo) => {
           return (
             <CardVideo
               imageThumbnail={video.image_thumbnail}
               title={video.title}
-              key={idx.toString()}
+              key={video.video_id}
               authorName={video.author_name}
-              videoID={video.video_id}
+              videoId={video.video_id}
             />
           );
         })}

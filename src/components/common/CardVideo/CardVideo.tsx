@@ -16,38 +16,69 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 type videoProps = {
   imageThumbnail: string;
   title: string;
-  authorName: string;
-  videoID: string;
+  authorName?: string;
+  videoId?: string;
+  price?: number;
+  productId?: string;
+  linkProduct?: string;
 };
 
 const CardVideo = ({
   imageThumbnail,
   title,
   authorName,
-  videoID,
+  videoId,
+  price,
+  linkProduct,
 }: videoProps): JSX.Element => {
   return (
-    <Card maxW="sm">
-      <CardBody>
-        <Image
-          src={imageThumbnail}
-          alt="Green double couch with wooden legs"
-          borderRadius="lg"
-        />
-        <Stack mt="6" spacing="3">
-          <Heading size="md">{title}</Heading>
-          <Text>{authorName}</Text>
-        </Stack>
-      </CardBody>
-      <Divider />
-      <CardFooter>
-        <Button variant="solid" colorScheme="blue">
-          <ChakraLink as={ReactRouterLink} to={`/detail-video/${videoID}`}>
-            Detail
-          </ChakraLink>
-        </Button>
-      </CardFooter>
-    </Card>
+    <>
+      {price ? (
+        <Card maxW="80">
+          <CardBody>
+            <Image
+              src={imageThumbnail}
+              alt="Green double couch with wooden legs"
+              borderRadius="lg"
+            />
+            <Stack mt="6" spacing="3">
+              <Heading size="md">{title}</Heading>
+              <Text>{authorName}</Text>
+            </Stack>
+          </CardBody>
+          <Divider />
+          <CardFooter>
+            <Button variant="solid" colorScheme="blue">
+              <ChakraLink href={linkProduct} isExternal>
+                Detail
+              </ChakraLink>
+            </Button>
+          </CardFooter>
+        </Card>
+      ) : (
+        <Card maxW="sm">
+          <CardBody>
+            <Image
+              src={imageThumbnail}
+              alt="Green double couch with wooden legs"
+              borderRadius="lg"
+            />
+            <Stack mt="6" spacing="3">
+              <Heading size="md">{title}</Heading>
+              <Text>{authorName}</Text>
+            </Stack>
+          </CardBody>
+          <Divider />
+          <CardFooter>
+            <Button variant="solid" colorScheme="blue">
+              <ChakraLink as={ReactRouterLink} to={`/detail-video/${videoId}`}>
+                Detail
+              </ChakraLink>
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
+    </>
   );
 };
 

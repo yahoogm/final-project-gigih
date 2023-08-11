@@ -11,7 +11,7 @@ export const router: Array<routersType> = [
     element: <VideoList />,
   },
   {
-    path: '/detail-video/:id',
+    path: '/detail-video/:videoId',
     element: <VideoDetail />,
   },
 ];

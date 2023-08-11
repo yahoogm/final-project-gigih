@@ -1,9 +1,13 @@
-const EmbedVideo = () => {
+type propsEmbedVideo = {
+  videoId: string;
+};
+
+const EmbedVideo = ({ videoId }: propsEmbedVideo) => {
   return (
     <iframe
-      width="768"
+      width={'700vh'}
       height="500"
-      src="https://www.youtube.com/embed/SkV_plRkVzo"
+      src={`https://www.youtube.com/embed/${videoId}`}
       title="YouTube video player"
       frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
