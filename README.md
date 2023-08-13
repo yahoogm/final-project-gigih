@@ -19,12 +19,15 @@ yarn install
 
 ## Usage
 
-Use yarn dev script to run the project in your local computer
+Use yarn dev script to run the project in your local computer and open [http://localhost:5173/](http://localhost:5173/) to view in your browser.
 
 ```bash
 yarn dev
 
 ```
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
 ## Contributing
 
