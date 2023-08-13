@@ -22,7 +22,7 @@ const Header: React.FC = () => {
           alt="Tokopeduli Play"
         />
         <Heading size="md" color="black">
-          Tukanpeduli Play
+          Tokopeduli Play
         </Heading>
         <Spacer />
       </Flex>

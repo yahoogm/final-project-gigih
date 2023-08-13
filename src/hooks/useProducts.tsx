@@ -26,6 +26,7 @@ const useProducts = (videoId: string) => {
         setLoading(false);
         setError(null);
       } catch (error) {
+        setLoading(false);
         throw (error as Error).message;
       }
     };

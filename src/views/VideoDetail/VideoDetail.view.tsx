@@ -56,8 +56,10 @@ const VideoDetail: React.FC = () => {
           <Grid templateColumns={'repeat(1, 1fr)'} gap={4}>
             {!model.productsLoading ? (
               model.products.length === 0 ? (
-                <Flex alignContent={'center'} justifyItems={'center'}>
-                  <Text>No comments yet</Text>
+                <Flex h={'96vh'}>
+                  <Center>
+                    <Text>No products yet</Text>
+                  </Center>
                 </Flex>
               ) : model.productsError ? (
                 <Error />
@@ -82,7 +84,7 @@ const VideoDetail: React.FC = () => {
       </GridItem>
 
       <GridItem position={'relative'} colSpan={4}>
-        {!model.videoId ? (
+        {model.videosLoading ? (
           <p>loading</p>
         ) : (
           <>
@@ -98,7 +100,7 @@ const VideoDetail: React.FC = () => {
                 <Text mt={'-32'}>{model.videos?.author_name}</Text>
               </Flex>
             </Link>
-            <EmbedVideo videoId={model.videoId} />
+            <EmbedVideo videoId={model.videoId || 'kcnwI_5nKyA'} />
           </>
         )}
       </GridItem>
@@ -121,8 +123,10 @@ const VideoDetail: React.FC = () => {
               <Text>Comments</Text>
               {!model.loading ? (
                 model.comments.length === 0 ? (
-                  <Flex alignContent={'center'} justifyItems={'center'}>
-                    <Text>No comments yet</Text>
+                  <Flex h={'57vh'} justifyContent={'center'}>
+                    <Center>
+                      <Text>No comments yet</Text>
+                    </Center>
                   </Flex>
                 ) : model.error ? (
                   <Error />

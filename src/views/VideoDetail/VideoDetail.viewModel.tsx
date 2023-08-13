@@ -57,6 +57,7 @@ const useVideoDetailModel = () => {
         setCommentAdditionCount((prevCount) => prevCount + 1);
         toast({
           title: `${commentData.username} berhasil menambahkan comment`,
+          colorScheme: 'whatsapp',
         });
       } catch (error) {
         return (error as Error).message;
