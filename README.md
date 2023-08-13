@@ -19,6 +19,8 @@ yarn install
 
 ## Usage
 
+Use yarn dev script to run the project in your local computer
+
 ```bash
 yarn dev
 
