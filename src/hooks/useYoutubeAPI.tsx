@@ -1,10 +1,32 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export const useYoutubeAPI = (idVideo: string) => {
-  const [data, setData] = useState(null);
+type responseDataYoutubeAPI = {
+  title: string;
+  author_name: string;
+  author_url: string;
+  type: string;
+  height: number;
+  width: number;
+  html: string;
+  version: string;
+  provider_name: string;
+  provider_url: string;
+  thumbnail_height: number;
+  thumbnail_width: number;
+  thumbnail_url: string;
+};
+
+type responseYoutubeAPI = {
+  data: responseDataYoutubeAPI;
+  loading: boolean;
+  error: null | string;
+};
+
+export const useYoutubeAPI = (idVideo: string): responseYoutubeAPI => {
+  const [data, setData] = useState<responseDataYoutubeAPI | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     if (!idVideo) return;
@@ -32,5 +54,5 @@ export const useYoutubeAPI = (idVideo: string) => {
     fetchData();
   }, [idVideo]);
 
-  return { data, loading, error };
+  return { data: data!, loading, error };
 };
