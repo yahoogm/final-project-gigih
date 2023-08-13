@@ -3,7 +3,7 @@ import RootRoutes from './RootRoutes';
 
 function App() {
   return (
-    <Box minH={'100vh'} bgColor={'black'}>
+    <Box minH={'100vh'} bgColor={'white'}>
       <RootRoutes />
     </Box>
   );
