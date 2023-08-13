@@ -19,7 +19,8 @@ yarn install
 
 ## Usage
 
-```yarn dev
+```bash
+yarn dev
 
 ```
 
