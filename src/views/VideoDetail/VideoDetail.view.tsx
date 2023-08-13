@@ -6,27 +6,24 @@ import {
   FormControl,
   FormErrorMessage,
   Button,
-  FormLabel,
   Box,
   Textarea,
-  useToast,
-  CardBody,
-  Heading,
   Text,
-  Card,
+  Flex,
 } from '@chakra-ui/react';
 import EmbedVideo from '../../components/common/EmbedVideo/EmbedVideo';
-import { useParams } from 'react-router-dom';
-import useProducts from '../../hooks/useProducts';
-import CardVideo from '../../components/common/CardVideo/CardVideo';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { useCallback } from 'react';
-import { useState, useEffect } from 'react';
 
-type routeParams = {
-  videoId: string;
-};
+import CardVideo from '../../components/common/CardVideo/CardVideo';
+import useVideoDetailModel from './VideoDetail.viewModel';
+import { responseComment } from './VideoDetail.viewModel';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Link } from 'react-router-dom';
+import {
+  Error,
+  LoadingCardList,
+  LoadingCardComment,
+} from '../../components/layouts';
+import { CardComment } from '../../components/common';
 
 type productResponse = {
   title: string;
@@ -36,133 +33,77 @@ type productResponse = {
   product_id: string;
 };
 
-type responseComment = {
-  username: string;
-  video_id: string;
-  comment: string;
-};
-
-const VideoDetail = (): JSX.Element => {
-  const { videoId } = useParams<routeParams>();
-
-  const { data: products, loading: productsLoading } = useProducts(
-    videoId || 'kcnwI_5nKyA'
-  );
-
-  const [commentAdditionCount, setCommentAdditionCount] = useState<number>(0);
-  const [comments, setComment] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const toast = useToast();
-
-  const handleSubmitComment = useCallback(
-    async (username: string, comment: string) => {
-      try {
-        const response = await axios.post('http://localhost:3000/comments', {
-          video_id: videoId,
-          username,
-          userComment: comment,
-        });
-
-        if (response.status === 400 || response.status === 404) {
-          throw new Error(`Http error status: ${response.status}`);
-        }
-
-        const responseData = await response.data;
-        const commentData: responseComment = await responseData.data;
-        setCommentAdditionCount((prevCount) => prevCount + 1);
-        toast({
-          title: `${commentData.username} berhasil menambahkan comment`,
-        });
-      } catch (error) {
-        return (error as Error).message;
-      }
-    },
-    [toast, videoId]
-  );
-
-  useEffect(() => {
-    if (!videoId) return;
-
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('http://localhost:3000/comments', {
-          params: {
-            id: videoId,
-          },
-        });
-        if (response.status === 400 || response.status === 404) {
-          throw new Error(`HTTP Error status: ${response.status}`);
-        }
-
-        const json = await response.data.data;
-        setComment(json);
-        setLoading(false);
-        setError(null);
-      } catch (error) {
-        throw (error as Error).message;
-      }
-    };
-
-    fetchData();
-  }, [videoId, commentAdditionCount]);
-
-  console.log(error);
-
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      comment: '',
-    },
-    onSubmit: (values) => {
-      handleSubmitComment(values.username, values.comment);
-
-      formik.resetForm();
-    },
-  });
-
-  if (!videoId && loading) return <div>Loading</div>;
-  if (videoId === undefined) return <div>Video error</div>;
+const VideoDetail: React.FC = () => {
+  const model = useVideoDetailModel();
 
   return (
-    <Grid templateColumns="repeat(8, 1fr)" minH={'100vh'} placeItems={'center'}>
+    <Grid
+      templateColumns="repeat(8, 1fr)"
+      minH={'100vh'}
+      placeItems={'center'}
+      bgColor={'white'}
+    >
       <GridItem
         colSpan={2}
-        bgColor={'bisque'}
+        bgColor={'gray.50'}
         width={'full'}
         overflowX={'hidden'}
         overflowY={'scroll'}
-        maxH={'100vh'}
+        h={'100vh'}
         padding={4}
       >
         <Center>
           <Grid templateColumns={'repeat(1, 1fr)'} gap={4}>
-            {!productsLoading ? (
-              products.map((product: productResponse) => {
-                return (
-                  <CardVideo
-                    key={product.product_id}
-                    title={product.title}
-                    imageThumbnail={product.thumbnail_url}
-                    price={product.price}
-                    linkProduct={product.link_product}
-                  />
-                );
-              })
+            {!model.productsLoading ? (
+              model.products.length === 0 ? (
+                <Flex alignContent={'center'} justifyItems={'center'}>
+                  <Text>No comments yet</Text>
+                </Flex>
+              ) : model.productsError ? (
+                <Error />
+              ) : (
+                model.products.map((product: productResponse) => {
+                  return (
+                    <CardVideo
+                      key={product.product_id}
+                      title={product.title}
+                      imageThumbnail={product.thumbnail_url}
+                      price={product.price}
+                      linkProduct={product.link_product}
+                    />
+                  );
+                })
+              )
             ) : (
-              <p>loading</p>
+              <LoadingCardList />
             )}
           </Grid>
         </Center>
       </GridItem>
 
       <GridItem position={'relative'} colSpan={4}>
-        {!videoId ? <p>loading</p> : <EmbedVideo videoId={videoId} />}
+        {!model.videoId ? (
+          <p>loading</p>
+        ) : (
+          <>
+            <Link to={'/'}>
+              <Flex align={'center'}>
+                <ArrowBackIcon
+                  w={6}
+                  h={6}
+                  color={'black'}
+                  mt={'-32'}
+                  mr={'10px'}
+                />
+                <Text mt={'-32'}>{model.videos?.author_name}</Text>
+              </Flex>
+            </Link>
+            <EmbedVideo videoId={model.videoId} />
+          </>
+        )}
       </GridItem>
 
-      <GridItem bg={'aqua'} colSpan={2} minH={'100vh'} width={'full'}>
+      <GridItem bg={'white'} colSpan={2} minH={'100vh'} width={'full'}>
         <Grid
           templateColumns={'repeat(1, 1fr)'}
           templateRows={'repeat(3, 1fr)'}
@@ -170,71 +111,99 @@ const VideoDetail = (): JSX.Element => {
         >
           <GridItem
             rowSpan={2}
-            bgColor={'blanchedalmond'}
+            bgColor={'gray.50'}
             overflowX={'hidden'}
             overflowY={'scroll'}
             maxH={'66.6vh'}
             padding={4}
           >
             <Grid templateColumns={'repeat(1, 1fr)'} gap={4}>
-              {comments.map((comment: responseComment, idx: number) => {
-                return (
-                  <GridItem key={idx.toString()}>
-                    <Card>
-                      <CardBody>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            {comment.username}
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {comment.comment}
-                          </Text>
-                        </Box>
-                      </CardBody>
-                    </Card>
-                  </GridItem>
-                );
-              })}
+              <Text>Comments</Text>
+              {!model.loading ? (
+                model.comments.length === 0 ? (
+                  <Flex alignContent={'center'} justifyItems={'center'}>
+                    <Text>No comments yet</Text>
+                  </Flex>
+                ) : model.error ? (
+                  <Error />
+                ) : (
+                  model.comments.map(
+                    (comment: responseComment, idx: number) => {
+                      return (
+                        <GridItem key={idx.toString()}>
+                          <CardComment
+                            comment={comment.comment}
+                            username={comment.username}
+                          />
+                        </GridItem>
+                      );
+                    }
+                  )
+                )
+              ) : (
+                <>
+                  <LoadingCardComment />
+                  <LoadingCardComment />
+                  <LoadingCardComment />
+                  <LoadingCardComment />
+                  <LoadingCardComment />
+                  <LoadingCardComment />
+                </>
+              )}
             </Grid>
           </GridItem>
 
           <GridItem
             rowSpan={1}
-            bgColor={'white'}
+            bgColor={'gray.50'}
             overflowX={'hidden'}
             overflowY={'scroll'}
             padding={4}
             maxH={'33.2vh'}
           >
-            <form onSubmit={formik.handleSubmit}>
-              <FormControl isRequired>
-                <Box marginBottom={4}>
-                  <FormLabel>Username</FormLabel>
+            <Text mb={4}>Insert your comment</Text>
+            <form onSubmit={model.formik.handleSubmit}>
+              <FormControl
+                isInvalid={
+                  !!model.formik.errors.username &&
+                  model.formik.touched.username
+                }
+              >
+                <Box marginBottom={2}>
                   <Input
                     placeholder="insert your username"
                     id="username"
                     name="username"
                     type="text"
-                    onChange={formik.handleChange}
-                    value={formik.values.username}
+                    onChange={model.formik.handleChange}
+                    value={model.formik.values.username}
                     variant={'filled'}
                   />
+                  <FormErrorMessage>
+                    {model.formik.errors.username}
+                  </FormErrorMessage>
                 </Box>
+              </FormControl>
 
+              <FormControl
+                isInvalid={
+                  !!model.formik.errors.comment && model.formik.touched.comment
+                }
+              >
                 <Box>
-                  <FormLabel>Comment</FormLabel>
                   <Textarea
                     placeholder="insert your comments"
                     size={'sm'}
                     id="comment"
                     name="comment"
                     variant={'filled'}
-                    onChange={formik.handleChange}
-                    value={formik.values.comment}
+                    onChange={model.formik.handleChange}
+                    value={model.formik.values.comment}
                   ></Textarea>
+                  <FormErrorMessage>
+                    {model.formik.errors.comment}
+                  </FormErrorMessage>
                 </Box>
-
-                <FormErrorMessage></FormErrorMessage>
               </FormControl>
 
               <Button mt={4} colorScheme="teal" type="submit" width={'full'}>
