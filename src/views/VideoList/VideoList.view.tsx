@@ -1,12 +1,30 @@
 import { Grid, Stack } from '@chakra-ui/react';
-import CardVideo from '../../components/common/CardVideo/CardVideo';
+import { CardVideo } from '../../components/common';
 import { useFetch } from '../../hooks/useFetch';
+import { Error, Header, LoadingCardList } from '../../components/layouts';
 
-const VideList = (): JSX.Element => {
+const VideoList = (): JSX.Element => {
   const { data, loading, error } = useFetch('http://localhost:3000/videos');
 
-  if (loading) return <h1>loading</h1>;
-  if (error) return <h1>Error</h1>;
+  if (loading)
+    return (
+      <>
+        <Header />
+        <Stack paddingX={'20'} paddingY={8}>
+          <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+            <LoadingCardList />
+            <LoadingCardList />
+            <LoadingCardList />
+            <LoadingCardList />
+            <LoadingCardList />
+            <LoadingCardList />
+            <LoadingCardList />
+            <LoadingCardList />
+          </Grid>
+        </Stack>
+      </>
+    );
+  if (error) return <Error />;
 
   type responseVideo = {
     image_thumbnail: string;
@@ -16,22 +34,25 @@ const VideList = (): JSX.Element => {
   };
 
   return (
-    <Stack padding={'4'}>
-      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        {data.map((video: responseVideo) => {
-          return (
-            <CardVideo
-              imageThumbnail={video.image_thumbnail}
-              title={video.title}
-              key={video.video_id}
-              authorName={video.author_name}
-              videoId={video.video_id}
-            />
-          );
-        })}
-      </Grid>
-    </Stack>
+    <>
+      <Header />
+      <Stack paddingX={'20'} paddingY={8} marginTop={'60px'}>
+        <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+          {data.map((video: responseVideo) => {
+            return (
+              <CardVideo
+                imageThumbnail={video.image_thumbnail}
+                title={video.title}
+                key={video.video_id}
+                authorName={video.author_name}
+                videoId={video.video_id}
+              />
+            );
+          })}
+        </Grid>
+      </Stack>
+    </>
   );
 };
 
-export default VideList;
+export default VideoList;
