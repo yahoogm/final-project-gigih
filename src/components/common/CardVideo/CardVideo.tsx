@@ -20,14 +20,14 @@ type videoProps = {
   linkProduct?: string;
 };
 
-const CardVideo = ({
+const CardVideo: React.FC<videoProps> = ({
   imageThumbnail,
   title,
   authorName,
   videoId,
   price,
   linkProduct,
-}: videoProps): JSX.Element => {
+}: videoProps) => {
   return (
     <>
       {price ? (

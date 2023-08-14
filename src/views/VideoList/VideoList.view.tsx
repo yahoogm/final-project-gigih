@@ -4,7 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { Error, Header, LoadingCardList } from '../../components/layouts';
 import API_URL from '../../config/api/api';
 
-const VideoList = (): JSX.Element => {
+const VideoList: React.FC = () => {
   const { data, loading, error } = useFetch(
     `${API_URL}/videos` || 'http://localhost:3000/videos'
   );

@@ -2,7 +2,7 @@ type propsEmbedVideo = {
   videoId: string;
 };
 
-const EmbedVideo = ({ videoId }: propsEmbedVideo) => {
+const EmbedVideo: React.FC<propsEmbedVideo> = ({ videoId }) => {
   return (
     <iframe
       width={'700vh'}
