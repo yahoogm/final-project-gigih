@@ -23,7 +23,9 @@ Tokopeduli play is a website-based application created to display a list of vide
 
 ## Installation
 
-Use the package manager [yarn](https://yarnpkg.com/) to install Tokopeduli play.
+Before install the project you need to clone or download the backend app to this link [midterm-gigih](https://github.com/yahoogm/BE-Midterm-Gigih) and don't forget to read the docs.
+
+After it use the package manager [yarn](https://yarnpkg.com/) to install Tokopeduli play.
 
 ```bash
 yarn install
