@@ -15,14 +15,14 @@ const VideoList: React.FC = () => {
         <Header />
         <Stack paddingX={'20'} paddingY={8}>
           <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-            <LoadingCardList />
-            <LoadingCardList />
-            <LoadingCardList />
-            <LoadingCardList />
-            <LoadingCardList />
-            <LoadingCardList />
-            <LoadingCardList />
-            <LoadingCardList />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
+            <LoadingCardList page={'home'} />
           </Grid>
         </Stack>
       </>

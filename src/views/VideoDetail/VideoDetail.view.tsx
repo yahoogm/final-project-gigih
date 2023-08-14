@@ -10,6 +10,7 @@ import {
   Textarea,
   Text,
   Flex,
+  Skeleton,
 } from '@chakra-ui/react';
 import EmbedVideo from '../../components/common/EmbedVideo/EmbedVideo';
 
@@ -77,7 +78,7 @@ const VideoDetail: React.FC = () => {
                 })
               )
             ) : (
-              <LoadingCardList />
+              <LoadingCardList page={'detail'} />
             )}
           </Grid>
         </Center>
@@ -85,7 +86,9 @@ const VideoDetail: React.FC = () => {
 
       <GridItem position={'relative'} colSpan={4}>
         {model.videosLoading ? (
-          <p>loading</p>
+          <Skeleton>
+            <Box width={'700px'} height={'500px'}></Box>
+          </Skeleton>
         ) : (
           <>
             <Link to={'/'}>
