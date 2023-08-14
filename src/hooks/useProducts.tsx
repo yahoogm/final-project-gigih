@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config/api/api';
 
 const useProducts = (videoId: string) => {
   const [data, setData] = useState([]);
@@ -12,11 +13,14 @@ const useProducts = (videoId: string) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3000/products', {
-          params: {
-            id: videoId,
-          },
-        });
+        const response = await axios.get(
+          `${API_URL}/products` || 'http://localhost:3000/products',
+          {
+            params: {
+              id: videoId,
+            },
+          }
+        );
         if (response.status === 400 || response.status === 404) {
           throw new Error(`HTTP Error status: ${response.status}`);
         }
@@ -32,7 +36,7 @@ const useProducts = (videoId: string) => {
     };
 
     fetchData();
-  }, [videoId]);
+  }, [videoId, API_URL]);
 
   return { data, loading, error };
 };

@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import useProducts from '../../hooks/useProducts';
 import { useToast } from '@chakra-ui/react';
 import { useYoutubeAPI } from '../../hooks/useYoutubeAPI';
+import API_URL from '../../config/api/api';
 
 type routeParams = {
   videoId: string;
@@ -42,11 +43,14 @@ const useVideoDetailModel = () => {
   const handleSubmitComment = useCallback(
     async (username: string, comment: string) => {
       try {
-        const response = await axios.post('http://localhost:3000/comments', {
-          video_id: videoId,
-          username,
-          userComment: comment,
-        });
+        const response = await axios.post(
+          `${API_URL}/comments` || 'http://localhost:3000/comments',
+          {
+            video_id: videoId,
+            username,
+            userComment: comment,
+          }
+        );
 
         if (response.status === 400 || response.status === 404) {
           throw new Error(`Http error status: ${response.status}`);
@@ -72,11 +76,14 @@ const useVideoDetailModel = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3000/comments', {
-          params: {
-            id: videoId,
-          },
-        });
+        const response = await axios.get(
+          `${API_URL}/comments` || 'http://localhost:3000/comments',
+          {
+            params: {
+              id: videoId,
+            },
+          }
+        );
         if (response.status === 400 || response.status === 404) {
           throw new Error(`HTTP Error status: ${response.status}`);
         }
@@ -97,12 +104,12 @@ const useVideoDetailModel = () => {
 
   const addCommentSchema = Yup.object().shape({
     username: Yup.string()
-      .min(5, 'Too Short!')
-      .max(25, 'Too Long!')
+      .min(3, 'Min 3 characters!')
+      .max(25, 'Max 25 characters!')
       .required('Please input your username'),
     comment: Yup.string()
-      .min(5, 'Too Short!')
-      .max(250, 'Too Long!')
+      .min(5, 'Min 5 characters!')
+      .max(250, 'Max 250 characters!')
       .required('Please input your comment'),
   });
 
