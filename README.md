@@ -12,10 +12,14 @@ Tokopeduli play is a website-based application created to display a list of vide
 ## Feature
 
 - Home page
-  User can see all of card videos list, and user can click the card for move to detail video page. The card share information about thumbnail image, title video, and author of the video.
+
+  - User can see all of card videos list.
+  - User can click the card for move to detail video page.
+  - The card share information about thumbnail image, title video, and author of the video.
 
 - Detail video page
-  User can see and watch embeed video from [Youtube](https://youtube.com), all list products of the video, comment list for the video, and add comment for the video.
+  - User can see and watch embeed video from [Youtube](https://youtube.com),
+  - All list products of the video, comment list for the video, and add comment for the video.
 
 ## Installation
 
