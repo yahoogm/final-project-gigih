@@ -9,6 +9,14 @@ Tokopeduli play is a website-based application created to display a list of vide
 - Yup
 - Axios
 
+## Feature
+
+- Home page
+  User can see all of card videos list, and user can click the card for move to detail video page. The card share information about thumbnail image, title video, and author of the video.
+
+- Detail video page
+  User can see and watch embeed video from [Youtube](https://youtube.com), all list products of the video, comment list for the video, and add comment for the video.
+
 ## Installation
 
 Use the package manager [yarn](https://yarnpkg.com/) to install Tokopeduli play.
@@ -28,6 +36,10 @@ yarn dev
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+## Schema Database
+
+<img src="https://github.com/yahoogm/Midterm-Project-Gigih/assets/100346233/6122f49a-91e7-46b9-9cb5-3210878956d0"/>
 
 ## Contributing
 
